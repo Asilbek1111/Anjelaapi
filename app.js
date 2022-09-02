@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+const cors = require("cors");
 const mongoose = require("mongoose");
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(
   })
 );
 app.use(express.static("public"));
+app.use(cors());
 
 mongoose.connect(
   "mongodb+srv://test:test1234@tests.zlmvqfa.mongodb.net/tests?retryWrites=true&w=majority",
@@ -35,6 +37,7 @@ app
 
   .get(function (req, res) {
     Article.find(function (err, foundArticles) {
+      console.log(foundArticles);
       if (!err) {
         res.send(foundArticles);
       } else {
@@ -122,11 +125,6 @@ app
       }
     });
   });
-
-let port = process.env.PORT;
-if (port == null || port == "") {
-  port;
-}
 
 app.listen(3000, function () {
   console.log("Server started on port 3000");
